@@ -19,13 +19,13 @@ def strToCoord(string):
 
 arr = day5.split('\n')
 lines = list(map(strToCoord, arr))
-straightLines = list(filter(lambda line:line[0][0]==line[1][0] or line[0][1]==line[1][1], lines))
+# straightLines = list(filter(lambda line:line[0][0]==line[1][0] or line[0][1]==line[1][1], lines))
 # print(straightLines)
 
 #grid is a map with array of xs at key y
 grid = []
 
-for line in straightLines:
+for line in lines:
     # print(line)
     start = line[0]
     end = line[1]
@@ -46,7 +46,7 @@ for line in straightLines:
             # print(x)
             row[x] = row[x] + 1
             # print(row)
-    else:
+    elif start[1] == end[1]:
         #push same y line
         y = start[1]
         if(len(grid) < y+1):
@@ -62,8 +62,38 @@ for line in straightLines:
         for x in range(tiles[0], tiles[1]+1):
             # print(x)
             row[x] = row[x] + 1
+    else:
+        # print(line)
+        dir = [start[0] - end[0], start[1] - end[1]]
+        for i, n in enumerate(dir):
+            if n < 0:
+                dir[i] = 1
+            else:
+                dir[i] = -1
+        length = [start[0], end[0]]
+        length.sort()
+        length = length[1] - length[0]
+        coord = {'x':start[0], 'y':start[1]}
+        # print(coord)
+        for tile in range(0, length+1):
+            # print(tile)
+            if len(grid) < coord['y']+1:
+                for i in range(len(grid), coord['y']+1):
+                    grid.append([])
+            row = grid[coord["y"]]
+            if len(row) < coord['x']+1:
+                for i in range(len(row), coord['x']+1):
+                    row.append(0)
+            row[coord['x']] = row[coord['x']] + 1
+            coord['x'] = coord['x'] + dir[0]
+            coord['y'] = coord['y'] + dir[1]
+            # print(coord)
+
+       
 # print(grid)
 vents = [tile for cols in grid for tile in cols]
 overlaps = [tile for tile in vents if tile > 1]
 print(len(overlaps))
 #4640 too low
+
+#17690 too low
