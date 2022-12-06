@@ -16,11 +16,8 @@ def getAssignBounds(str):
 ans = 0
 for pair in pairs:
     assignment = pair.split(',')
-    left = list(range(*getAssignBounds(assignment[0])))
-    right = list(range(*getAssignBounds(assignment[1])))
-    
-    if len(left) == 0 or len(right) == 0:
-        print(range(*getAssignBounds(assignment[0])))
+    left = range(*getAssignBounds(assignment[0]))
+    right = range(*getAssignBounds(assignment[1]))
 
     if len(left) < len(right):
         a1 = left
